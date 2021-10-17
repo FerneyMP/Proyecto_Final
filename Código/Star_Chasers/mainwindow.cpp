@@ -38,13 +38,9 @@ void MainWindow::setup_window2()
     //PASOS: 1.Configurar la escena
     //       2.Configurar la
 
-    Window2 = new QMainWindow(this);//el this depende de la clase mainwindow
+    //Window2 = new QMainWindow(this);//el this depende de la clase mainwindow
     //esta ventana va depender de la principal
 
-
-
-
-
-    View2 = new QGraphicsView(scene2,Window2);
-    View2->setGeometry(0,0,800,600);
+   // View2 = new QGraphicsView(scene2,Window2);
+    //View2->setGeometry(0,0,800,600);
 }
