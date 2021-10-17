@@ -27,9 +27,12 @@ void MainWindow::setup_scene1()
 void MainWindow::setup_scene2()
 {
     scene2 = new QGraphicsScene;
-    wind2 = new window2(tam,tam);
+    wind2 = new window2(ui->View2->width()-2,ui->View2->height()-2);
     scene2->setSceneRect(0,0,ui->View2->width()-2,ui->View2->height()-2);
     ui->View2->setScene(scene2);
+    scene2->addItem(wind2);
+
+
 }
 
 void MainWindow::setup_window2()
@@ -43,4 +46,15 @@ void MainWindow::setup_window2()
 
    // View2 = new QGraphicsView(scene2,Window2);
     //View2->setGeometry(0,0,800,600);
+}
+
+void MainWindow::on_label_linkActivated(const QString &link)
+{
+    QPalette palette = ui->label->palette();
+    palette.setColor(QPalette::Window,Qt::white);
+    palette.setColor(QPalette::WindowText,Qt::white);
+    //palette.setBrush()
+    //palette.setColor(ui->label->backgroundRole(),Qt::yellow);
+    //palette.setColor(ui->label->foregroundRole(),Qt::yellow);
+    ui->label->setPalette(palette);
 }

@@ -27,6 +27,9 @@ public:
 
 
 
+private slots:
+    void on_label_linkActivated(const QString &link);
+
 private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene1, *scene2;
