@@ -6,8 +6,13 @@
 #include <QTimer>
 #include <QGraphicsView>
 #include <QString>
+#include <iostream>
+#include <fstream>
+
 #include "window2.h"
+
 #define tam 50
+using namespace std;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -23,14 +28,12 @@ public:
     void setup_scene1();
     void setup_scene2();
     void setup_window2();
-    void recibir_texto();
-
-
+    void crear_txt(string name);
+    void escribir_txt(string nombre);
 
 private slots:
     void on_label_linkActivated(const QString &link);
-
-
+    void on_AgregarDatos_clicked();
 
 private:
     Ui::MainWindow *ui;
