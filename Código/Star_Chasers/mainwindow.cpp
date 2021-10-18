@@ -48,6 +48,19 @@ void MainWindow::setup_window2()
     //View2->setGeometry(0,0,800,600);
 }
 
+void MainWindow::recibir_texto()
+{
+    //QTextEdit *usuario = new QTextEdit();
+    //QTextEdit *contrasena = new QTextEdit();
+    QString usuario_;
+    QString contrasena_;
+    //ui->textEdit->setText(usuario_);
+    //ui->textEdit_2->setText(contrasena_);
+    //usuario_ = ui->contrasenia->getTextMargins(0,0,0,0);
+    //usuario_ = ui->textEdit->toPlainText();
+
+}
+
 void MainWindow::on_label_linkActivated(const QString &link)
 {
     QPalette palette = ui->label->palette();
@@ -58,3 +71,4 @@ void MainWindow::on_label_linkActivated(const QString &link)
     //palette.setColor(ui->label->foregroundRole(),Qt::yellow);
     ui->label->setPalette(palette);
 }
+

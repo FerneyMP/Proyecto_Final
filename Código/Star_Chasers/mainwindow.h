@@ -5,7 +5,7 @@
 #include <QGraphicsScene>
 #include <QTimer>
 #include <QGraphicsView>
-
+#include <QString>
 #include "window2.h"
 #define tam 50
 
@@ -23,12 +23,14 @@ public:
     void setup_scene1();
     void setup_scene2();
     void setup_window2();
-
+    void recibir_texto();
 
 
 
 private slots:
     void on_label_linkActivated(const QString &link);
+
+
 
 private:
     Ui::MainWindow *ui;
