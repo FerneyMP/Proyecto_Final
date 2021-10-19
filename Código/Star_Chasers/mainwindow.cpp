@@ -63,7 +63,7 @@ void MainWindow::escribir_txt(string nombre, string user, string pass, int vidas
 {
 
     fstream text(nombre, fstream::out | fstream::app);
-    text << "{" << user << "," << pass << "," << vidas << "}" << "\n";
+    text << user << "," << pass << "," << vidas << "\n";
     text.close();
 }
 
@@ -76,6 +76,7 @@ string MainWindow::leer_usuario(string name)
         while(!text.eof()){
             datos.push_back(text.get());
         }
+        datos.pop_back(); //elimina el ultimo caracter
     }
     else cout << "el archivo no pudo ser abierto";
     return datos;
@@ -128,42 +129,60 @@ void MainWindow::on_Start_clicked()
     QString contrasena_;
     string complete, datos, copia;
     size_t posicion;
-    bool control = true;
     //int coma = 0;
-    datos = leer_usuario(DataBase);
-   // while (control) {
-        usuario_ = ui->usuario->text();
-        contrasena_ = ui->contrasenia->text();
-        //variables
-        complete = usuario_.toStdString() + "," + contrasena_.toStdString();
 
-        if(datos.find(complete)!=string::npos){//Si es diferente, pertenece al string (npos)
-            cout << "Bienvenido..." << endl;
-            control = false;
-            //posicion = datos.find(complete);
-            /*
-            for(unsigned long c = posicion; c < datos.size(); c++){
-                copia += datos[c];
+    datos = leer_usuario(DataBase);  
+    usuario_ = ui->usuario->text();
+    contrasena_ = ui->contrasenia->text();
+    complete = usuario_.toStdString() + "," + contrasena_.toStdString();
+    //cout << complete << endl;
+    //cout << datos << endl;
+
+
+
+    if(ui->usuario->text().isEmpty() || ui->contrasenia->text().isEmpty()){//Si usuario o contraseña está en blanco, no pase (Doble condicional)
+        cout << "El usuario ingresado no esta registrado en la base de datos..." << endl;
+        ui->usuario->clear();
+        ui->contrasenia->clear();
+        ui->usuario->setEnabled(true);
+        ui->contrasenia->setEnabled(true);
+        usuario_.clear();
+        contrasena_.clear();
+        complete.clear();
+
+    }
+    //TENGO QUE MEJORAR ESTE CONDICIONAL YA QUE NO ESTÁ FUNCIONANDO.
+    else if(datos.find(complete)!=string::npos){//Si es diferente, pertenece al string (npos)
+        cout << "Bienvenido..." << endl;
+        //posicion = datos.find(complete);
+        /*
+        for(unsigned long c = posicion; c < datos.size(); c++){
+            copia += datos[c];
+        }
+
+        for(unsigned long int i=0; i < copia.length(); ++i){
+            if(copia[i]==44){
+                coma++;
             }
+            if(coma==2){
 
-            for(unsigned long int i=0; i < copia.length(); ++i){
-                if(copia[i]==44){
-                    coma++;
-                }
-                if(coma==2){
+            }
+        }*/
+    }
+    else{
+        cout << "El usuario ingresado no esta registrado en la base de datos..." << endl;
+        ui->usuario->clear();
+        ui->contrasenia->clear();
+        ui->usuario->setEnabled(true);
+        ui->contrasenia->setEnabled(true);
+        usuario_.clear();
+        contrasena_.clear();
+        complete.clear();
+    }
+    //HIDE: esconder los objetos dentro del graphicsView
+    //ui->View2->hide();
+    //ui->AgregarDatos->hide();
 
-                }
-            }*/
-        }
-        else{
-            cout << "El usuario ingresado no esta registrado en la base de datos..." << endl;
-            ui->usuario->clear();
-            ui->contrasenia->clear();
-            ui->usuario->setEnabled(true);
-            ui->contrasenia->setEnabled(true);
-            usuario_.clear();
-            contrasena_.clear();
-            complete.clear();
-        }
-    //}
+
+    //Llamar a la clase que contiene la escena del juego
 }

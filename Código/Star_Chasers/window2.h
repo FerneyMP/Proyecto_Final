@@ -12,7 +12,6 @@ public:
 
 private:
     int w,h;
-
 };
 
 #endif // WINDOW2_H

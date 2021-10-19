@@ -39,9 +39,7 @@ public:
 private slots:
     void on_AgregarDatos_clicked();
     void on_Registrar_clicked();
-
     void on_IniciarSesion_clicked();
-
     void on_Start_clicked();
 
 private:
