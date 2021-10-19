@@ -12,6 +12,8 @@
 #include "window2.h"
 
 #define tam 50
+
+#define DataBase "DataBase" //Macro string para la definición del nombre del archivo
 using namespace std;
 
 QT_BEGIN_NAMESPACE
@@ -29,11 +31,16 @@ public:
     void setup_scene2();
     void setup_window2();
     void crear_txt(string name);
-    void escribir_txt(string nombre);
+    void escribir_txt(string nombre, string user, string pass, int vidas);
+    string leer_usuario(string name);
+    void validar_usuario_contrasena();
+
 
 private slots:
-    void on_label_linkActivated(const QString &link);
     void on_AgregarDatos_clicked();
+    void on_Registrar_clicked();
+
+    void on_IniciarSesion_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -44,6 +51,7 @@ private:
     QMainWindow *Window2; //Ventana #2
     QGraphicsView *View2;
     int W1, H1, h;
+    int vidas = 0;
 
 
 };
