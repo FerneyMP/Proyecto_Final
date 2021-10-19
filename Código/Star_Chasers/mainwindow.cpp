@@ -129,7 +129,7 @@ void MainWindow::on_Start_clicked()
     QString contrasena_;
     string complete, datos, copia;
     size_t posicion;
-    //int coma = 0;
+    int coma = 0;
 
     datos = leer_usuario(DataBase);  
     usuario_ = ui->usuario->text();
@@ -137,11 +137,21 @@ void MainWindow::on_Start_clicked()
     complete = usuario_.toStdString() + "," + contrasena_.toStdString();
     //cout << complete << endl;
     //cout << datos << endl;
-
-
+    posicion = datos.find(usuario_.toStdString());
+    for (int i = posicion; i<datos.length(); ++i) {
+        if(datos[i]==44){
+            coma++;
+        }
+        else if(coma>=1 && coma<2){
+            copia += datos[i];
+        }
+        else if(datos[i] == 10){
+            break;
+        }
+    }
 
     if(ui->usuario->text().isEmpty() || ui->contrasenia->text().isEmpty()){//Si usuario o contraseña está en blanco, no pase (Doble condicional)
-        cout << "El usuario ingresado no esta registrado en la base de datos..." << endl;
+        cout << "¡Lo sentimos!, usuario o clave incorrecta. Vuelve a intentarlo." << endl;
         ui->usuario->clear();
         ui->contrasenia->clear();
         ui->usuario->setEnabled(true);
@@ -152,25 +162,23 @@ void MainWindow::on_Start_clicked()
 
     }
     //TENGO QUE MEJORAR ESTE CONDICIONAL YA QUE NO ESTÁ FUNCIONANDO.
-    else if(datos.find(complete)!=string::npos){//Si es diferente, pertenece al string (npos)
-        cout << "Bienvenido..." << endl;
-        //posicion = datos.find(complete);
-        /*
-        for(unsigned long c = posicion; c < datos.size(); c++){
-            copia += datos[c];
+    else if(datos.find(complete)!=string::npos){//Si es diferente, pertenece al string (npos)        
+        if(contrasena_.toStdString() == copia){
+            cout << "Bienvenido..." << endl;
         }
-
-        for(unsigned long int i=0; i < copia.length(); ++i){
-            if(copia[i]==44){
-                coma++;
-            }
-            if(coma==2){
-
-            }
-        }*/
+        else{
+            cout << "¡Lo sentimos!, usuario o clave incorrecta. Vuelve a intentarlo."  << endl;
+            ui->usuario->clear();
+            ui->contrasenia->clear();
+            ui->usuario->setEnabled(true);
+            ui->contrasenia->setEnabled(true);
+            usuario_.clear();
+            contrasena_.clear();
+            complete.clear();
+        }
     }
     else{
-        cout << "El usuario ingresado no esta registrado en la base de datos..." << endl;
+        cout << "¡Lo sentimos!, usuario o clave incorrecta. Vuelve a intentarlo." << endl;
         ui->usuario->clear();
         ui->contrasenia->clear();
         ui->usuario->setEnabled(true);
