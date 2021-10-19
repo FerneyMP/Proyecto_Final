@@ -13,7 +13,7 @@
 
 #define tam 50
 
-#define DataBase "DataBase" //Macro string para la definición del nombre del archivo
+#define DataBase "DataBase.txt" //Macro string para la definición del nombre del archivo
 using namespace std;
 
 QT_BEGIN_NAMESPACE
@@ -41,6 +41,8 @@ private slots:
     void on_Registrar_clicked();
 
     void on_IniciarSesion_clicked();
+
+    void on_Start_clicked();
 
 private:
     Ui::MainWindow *ui;

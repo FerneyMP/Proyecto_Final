@@ -55,7 +55,7 @@ void MainWindow::setup_window2()
 
 void MainWindow::crear_txt(string name)
 {
-    fstream text(name, fstream::out );
+    fstream text(name+".txt", fstream::out );
     text.close();
 }
 
@@ -71,14 +71,15 @@ string MainWindow::leer_usuario(string name)
 {
     string datos;
     fstream text;
-    text.open(name, fstream::in);
+    text.open(name, fstream::in);    
     if(text.is_open()){
         while(!text.eof()){
             datos.push_back(text.get());
         }
     }
+    else cout << "el archivo no pudo ser abierto";
     return datos;
-    //else cout << "el archivo no pudo ser abierto";
+    //
 
 }
 
@@ -111,12 +112,6 @@ void MainWindow::on_Registrar_clicked()
 
 void MainWindow::on_IniciarSesion_clicked()
 {
-    QString usuario_;
-    QString contrasena_;
-    string complete, datos, copia;
-    size_t posicion;
-    //int coma = 0;
-
     ui->Registrar->setEnabled(false);
     ui->usuario->clear();
     ui->contrasenia->clear();
@@ -125,28 +120,50 @@ void MainWindow::on_IniciarSesion_clicked()
     ui->AgregarDatos->setEnabled(false);
     ui->Start->setEnabled(true);
     ui->IniciarSesion->setEnabled(false);
-    usuario_ = ui->usuario->text();
-    contrasena_ = ui->contrasenia->text();
+}
 
-    //variables
-    complete = usuario_.toStdString() + "," + contrasena_.toStdString();
+void MainWindow::on_Start_clicked()
+{
+    QString usuario_;
+    QString contrasena_;
+    string complete, datos, copia;
+    size_t posicion;
+    bool control = true;
+    //int coma = 0;
     datos = leer_usuario(DataBase);
+   // while (control) {
+        usuario_ = ui->usuario->text();
+        contrasena_ = ui->contrasenia->text();
+        //variables
+        complete = usuario_.toStdString() + "," + contrasena_.toStdString();
 
-    if(datos.find(complete)!=string::npos){//Si es diferente, pertenece al string (npos)
-        posicion = datos.find(complete);
+        if(datos.find(complete)!=string::npos){//Si es diferente, pertenece al string (npos)
+            cout << "Bienvenido..." << endl;
+            control = false;
+            //posicion = datos.find(complete);
+            /*
+            for(unsigned long c = posicion; c < datos.size(); c++){
+                copia += datos[c];
+            }
 
-        /*
-        for(unsigned long c = posicion; c < datos.size(); c++){
-            copia += datos[c];
+            for(unsigned long int i=0; i < copia.length(); ++i){
+                if(copia[i]==44){
+                    coma++;
+                }
+                if(coma==2){
+
+                }
+            }*/
         }
-
-        for(unsigned long int i=0; i < copia.length(); ++i){
-            if(copia[i]==44){
-                coma++;
-            }
-            if(coma==2){
-
-            }
-        }*/
-    }
+        else{
+            cout << "El usuario ingresado no esta registrado en la base de datos..." << endl;
+            ui->usuario->clear();
+            ui->contrasenia->clear();
+            ui->usuario->setEnabled(true);
+            ui->contrasenia->setEnabled(true);
+            usuario_.clear();
+            contrasena_.clear();
+            complete.clear();
+        }
+    //}
 }
