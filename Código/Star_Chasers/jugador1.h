@@ -5,6 +5,7 @@
 #include<QGraphicsPixmapItem>
 #include <QPixmap>
 
+
 class jugador1 : public QObject, public QGraphicsPixmapItem //Herencia
 {
 public:
@@ -15,6 +16,7 @@ public:
 private:
     QPixmap img;
     int scalex = 1, scaley=1;
+
 };
 
 #endif // JUGADOR1_H

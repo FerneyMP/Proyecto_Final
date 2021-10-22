@@ -15,6 +15,7 @@
 #include "jugador1.h"
 #include "enemigo1.h"
 #include "window2.h"
+#include "proyectil.h"
 
 #define tam 50
 #define cantidad_enemigos 10
@@ -49,6 +50,8 @@ private:
     QTimer *time_enemy1;
     QList<enemigo1*> lista_enemigos;
 
+    jugador1 *playerOne;
+    proyectil *proyect_;
 };
 
 #endif // INICIO_H

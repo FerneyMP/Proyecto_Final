@@ -14,6 +14,7 @@
 
 #include "jugador1.h"
 #include "enemigo1.h"
+#include "proyectil.h"
 
 #define DataBase "DataBase.txt" //Macro string para la definición del nombre del archivo
 using namespace std;
@@ -49,6 +50,9 @@ private:
     window2 *wind2;
     QMainWindow *Window2; //Ventana #2
     QGraphicsView *View2, *View1;
+
+
+
     int W1, H1, h;
     int vidas = 0;
 };

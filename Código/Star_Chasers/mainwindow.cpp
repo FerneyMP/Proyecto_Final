@@ -22,7 +22,7 @@ MainWindow::~MainWindow()
     delete ui;
     delete scene1;
     delete scene2;
-    delete Window2;
+    delete Window2;    
 }
 
 void MainWindow::setup_scene2()

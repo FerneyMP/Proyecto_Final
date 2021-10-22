@@ -17,6 +17,8 @@ inicio::~inicio()
 {
     delete ui;
     delete scene1;
+    delete playerOne;
+    delete proyect_;
 }
 
 void inicio::setup_scene1()
@@ -51,6 +53,7 @@ void inicio::setup_scene1()
 
 void inicio::keyPressEvent(QKeyEvent *tecla)
 {
+    int x = playerOne->x(), y = playerOne->y();
     /*Funcion para generar el movimiento del personaje a partir de las teclas
     el movimiento de un solo jugador se da con las teclas W S y se dispara con la tecla R*/
 
@@ -63,6 +66,9 @@ void inicio::keyPressEvent(QKeyEvent *tecla)
         if (personaje_->y()+(tam)<ui->View2->height()-2) personaje_-> setY(personaje_->y()+5);
     }
     if (tecla-> key() == Qt::Key_R){ //aqui se anade el objeto de la clase disparo
+        proyect_->set_scale(tam,tam);
+        proyect_->setPos(x,y);
+        scene1->addItem(proyect_);
        /* bombX->set_scale(tam,tam);
         bombX->setPos(x,y); //xy del personaje
         scene->addItem(bombX);
