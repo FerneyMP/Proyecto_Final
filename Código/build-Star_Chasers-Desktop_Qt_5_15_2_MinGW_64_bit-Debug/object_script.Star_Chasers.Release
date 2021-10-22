@@ -1,0 +1,10 @@
+release/enemigo1.o
+release/inicio.o
+release/jugador1.o
+release/main.o
+release/mainwindow.o
+release/window2.o
+release/qrc_imagenes.o
+release/qrc_images_game.o
+release/moc_inicio.o
+release/moc_mainwindow.o

@@ -1,15 +1,15 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "inicio.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);    
+    ui->setupUi(this);
     h=ui->View2->height();
     setup_scene2();
 
-    //ui->View3->setEnabled(false);
     ui->AgregarDatos->setEnabled(false);
     ui->usuario->setEnabled(false);
     ui->contrasenia->setEnabled(false);
@@ -25,16 +25,10 @@ MainWindow::~MainWindow()
     delete Window2;
 }
 
-void MainWindow::setup_scene1()
-{
-    scene1 = new QGraphicsScene;
-
-}
-
 void MainWindow::setup_scene2()
 {
     scene2 = new QGraphicsScene;
-    wind2 = new window2(ui->View2->width()-2,ui->View2->height()-2);
+    wind2 = new window2(ui->View2->width()-2,ui->View2->height()-2,1);
     scene2->setSceneRect(0,0,ui->View2->width()-2,ui->View2->height()-2);
     ui->View2->setScene(scene2);
     scene2->addItem(wind2);
@@ -71,7 +65,7 @@ string MainWindow::leer_usuario(string name)
 {
     string datos;
     fstream text;
-    text.open(name, fstream::in);    
+    text.open(name, fstream::in);
     if(text.is_open()){
         while(!text.eof()){
             datos.push_back(text.get());
@@ -90,7 +84,7 @@ void MainWindow::on_AgregarDatos_clicked()
     QString contrasena_;
     string complete;
     usuario_ = ui->usuario->text();
-    contrasena_ = ui->contrasenia->text();    
+    contrasena_ = ui->contrasenia->text();
 
     ui->usuario->setEnabled(false);
     ui->contrasenia->setEnabled(false);
@@ -131,7 +125,7 @@ void MainWindow::on_Start_clicked()
     size_t posicion;
     int coma = 0;
 
-    datos = leer_usuario(DataBase);  
+    datos = leer_usuario(DataBase);
     usuario_ = ui->usuario->text();
     contrasena_ = ui->contrasenia->text();
     complete = usuario_.toStdString() + "," + contrasena_.toStdString();
@@ -162,12 +156,17 @@ void MainWindow::on_Start_clicked()
 
     }
     //TENGO QUE MEJORAR ESTE CONDICIONAL YA QUE NO ESTÁ FUNCIONANDO.
-    else if(datos.find(complete)!=string::npos){//Si es diferente, pertenece al string (npos)        
+    else if(datos.find(complete)!=string::npos){//Si es diferente, pertenece al string (npos)
         if(contrasena_.toStdString() == copia){
             cout << "Bienvenido..." << endl;
+
+            //Llamar a la clase que contiene la escena del juego
+            inicio * Inicio = new inicio ();
+            Inicio-> show();
+            close();
         }
         else{
-            cout << "¡Lo sentimos!, usuario o clave incorrecta. Vuelve a intentarlo."  << endl;
+            cout << "Lo sentimos!, usuario o clave incorrecta. Vuelve a intentarlo."  << endl;
             ui->usuario->clear();
             ui->contrasenia->clear();
             ui->usuario->setEnabled(true);
@@ -178,7 +177,7 @@ void MainWindow::on_Start_clicked()
         }
     }
     else{
-        cout << "¡Lo sentimos!, usuario o clave incorrecta. Vuelve a intentarlo." << endl;
+        cout << "Lo sentimos!, usuario o clave incorrecta. Vuelve a intentarlo." << endl;
         ui->usuario->clear();
         ui->contrasenia->clear();
         ui->usuario->setEnabled(true);
@@ -187,10 +186,7 @@ void MainWindow::on_Start_clicked()
         contrasena_.clear();
         complete.clear();
     }
-    //HIDE: esconder los objetos dentro del graphicsView
-    //ui->View2->hide();
-    //ui->AgregarDatos->hide();
-
-
-    //Llamar a la clase que contiene la escena del juego
 }
+//HIDE: esconder los objetos dentro del graphicsView
+//ui->View2->hide();
+//ui->AgregarDatos->hide();
