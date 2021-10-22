@@ -19,6 +19,7 @@ inicio::~inicio()
     delete scene1;
     delete playerOne;
     delete proyect_;
+    delete Time_Proyec;
 }
 
 void inicio::setup_scene1()
@@ -53,12 +54,10 @@ void inicio::setup_scene1()
 
 void inicio::keyPressEvent(QKeyEvent *tecla)
 {
-    int x = playerOne->x(), y = playerOne->y();
+
+     //posicion xy del personaje (esto se usa para el disparo)
     /*Funcion para generar el movimiento del personaje a partir de las teclas
     el movimiento de un solo jugador se da con las teclas W S y se dispara con la tecla R*/
-
-    //int x =personaje_->x(), y=personaje_->y(); //posicion xy del personaje (esto se usa para el disparo)
-
     if (tecla-> key() == Qt:: Key_W) {  //movimiento hacia arriba
         if ( personaje_->y()>0) personaje_-> setY(personaje_->y()-5);
     }
@@ -66,8 +65,9 @@ void inicio::keyPressEvent(QKeyEvent *tecla)
         if (personaje_->y()+(tam)<ui->View2->height()-2) personaje_-> setY(personaje_->y()+5);
     }
     if (tecla-> key() == Qt::Key_R){ //aqui se anade el objeto de la clase disparo
-        proyect_->set_scale(tam,tam);
-        proyect_->setPos(x,y);
+        proyect_ = new proyectil;
+        proyect_->set_scale(tam*100,tam*100);
+        get_time();
         scene1->addItem(proyect_);
        /* bombX->set_scale(tam,tam);
         bombX->setPos(x,y); //xy del personaje
@@ -76,6 +76,29 @@ void inicio::keyPressEvent(QKeyEvent *tecla)
         bombX->timer-> start (250);// empezar a palpitar*/
     }
     //el movimiento del segundo jugador se da con las flechas de arriba y abajo y se dispara con la tecla P
+}
+
+void inicio::get_time()
+{
+    Time_Proyec = new QTimer;
+    connect(Time_Proyec,SIGNAL(timeout()),this,SLOT(movimiento_proyectil()));
+}
+
+void inicio::movimiento_proyectil()
+{
+    int x = personaje_->x(), y = personaje_->y();
+    proyect_->setPos(x+10,y); //se desplaza 10 unidades a la derecha
+    //IMPLEMENTAR MOVIMIENTO PARABOLICO
+    /*
+    float x,y;
+
+    x = xo+vxo*n*(0.001*T);
+    y = yo+vyo*n*(0.001*T)-0.5*g*n*(0.001*T)*n*(0.001*T);
+
+    p->setPos(int(x),int(h-y-p->get_h()));
+    n++;*/
+
+    //if Condicional para que si el proyectil sale del tamaño del graphics sea eliminado de este
 }
 
 void inicio::generar_enemy(QList<enemigo1*> lista_enemigos)
