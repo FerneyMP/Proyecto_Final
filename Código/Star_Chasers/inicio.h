@@ -29,18 +29,21 @@ class inicio : public QMainWindow
     Q_OBJECT
 
 public:
+
     explicit inicio(QWidget *parent = nullptr);
      void setup_scene1();
      void keyPressEvent(QKeyEvent *tecla);
-     void get_time();
-     void movimiento_proyectil();
      void generar_enemy(QList<enemigo1*> lista_enemigos);
-
-
+     void nivel();
+     void vidas();
+     void puntaje();
+     int contador = 180;
     ~inicio();
 
 private slots:
    void movimientos_enemigos();
+   void movimiento_proyectil();
+   void tiempo();
 
 private:
     Ui::inicio *ui;
@@ -53,10 +56,13 @@ private:
     QTimer *time_enemy1;
     QList<enemigo1*> lista_enemigos;
 
-    jugador1 *playerOne;
     proyectil *proyect_;
     QTimer *Time_Proyec;
+    QTimer *tempo;
     float xo,yo, vxo = 4.5, vyo = 5, g = 1, T = 1; //velocidad(x,y) y gravedad constantes, posicion(x,y) varían
+    unsigned long long n=0;
+    float x,y;
+
 };
 
 #endif // INICIO_H

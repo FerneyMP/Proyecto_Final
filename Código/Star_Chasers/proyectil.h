@@ -13,8 +13,7 @@ public:
     proyectil();
     void set_imagen();
     void set_scale(int a, int b);
-    //void activar();
-    //QTimer *timer;
+
 private:
     QPixmap proyectil_;
     int scalex =1, scaley= 1;

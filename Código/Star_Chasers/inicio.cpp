@@ -8,7 +8,11 @@ inicio::inicio(QWidget *parent) :
 {
     ui->setupUi(this);
     h=ui->View2->height();
+    tempo = new QTimer(this);
+    connect(tempo, SIGNAL(timeout()),this,SLOT(tiempo()));
+    tempo->start(1000);
     setWindowTitle("Star Chasers");
+
     srand(time(NULL)); //crear la semilla para el # aleatorio
     setup_scene1();
 }
@@ -17,9 +21,9 @@ inicio::~inicio()
 {
     delete ui;
     delete scene1;
-    delete playerOne;
     delete proyect_;
     delete Time_Proyec;
+    delete tempo;
 }
 
 void inicio::setup_scene1()
@@ -28,6 +32,9 @@ void inicio::setup_scene1()
 
     time_enemy1 = new QTimer; //timer para el enemigo
     connect(time_enemy1,SIGNAL(timeout()),this,SLOT(movimientos_enemigos()));
+    Time_Proyec = new QTimer;
+    connect(Time_Proyec,SIGNAL(timeout()),this,SLOT(movimiento_proyectil()));
+
 
      scene1 = new QGraphicsScene;
      mapa_1 = new window2(ui->View2->width()-2,ui->View2->height()-2,2);
@@ -54,7 +61,6 @@ void inicio::setup_scene1()
 
 void inicio::keyPressEvent(QKeyEvent *tecla)
 {
-
      //posicion xy del personaje (esto se usa para el disparo)
     /*Funcion para generar el movimiento del personaje a partir de las teclas
     el movimiento de un solo jugador se da con las teclas W S y se dispara con la tecla R*/
@@ -65,40 +71,19 @@ void inicio::keyPressEvent(QKeyEvent *tecla)
         if (personaje_->y()+(tam)<ui->View2->height()-2) personaje_-> setY(personaje_->y()+5);
     }
     if (tecla-> key() == Qt::Key_R){ //aqui se anade el objeto de la clase disparo
-        proyect_ = new proyectil;
-        proyect_->set_scale(tam*100,tam*100);
-        get_time();
+        proyect_ = new proyectil; //para que genere nuevas posiciones de memoria cada vez que se dispara
+        proyect_->set_scale(tam/3,tam/3);
+        proyect_->setPos(personaje_->x()+tam*0.38, personaje_->y()+tam*0.38);
+        proyect_->set_imagen();
         scene1->addItem(proyect_);
-       /* bombX->set_scale(tam,tam);
-        bombX->setPos(x,y); //xy del personaje
-        scene->addItem(bombX);
-        timer->start(3000);//eliminar la bomba
-        bombX->timer-> start (250);// empezar a palpitar*/
+        Time_Proyec->start(70);
     }
     //el movimiento del segundo jugador se da con las flechas de arriba y abajo y se dispara con la tecla P
 }
 
-void inicio::get_time()
-{
-    Time_Proyec = new QTimer;
-    connect(Time_Proyec,SIGNAL(timeout()),this,SLOT(movimiento_proyectil()));
-}
-
 void inicio::movimiento_proyectil()
 {
-    int x = personaje_->x(), y = personaje_->y();
-    proyect_->setPos(x+10,y); //se desplaza 10 unidades a la derecha
-    //IMPLEMENTAR MOVIMIENTO PARABOLICO
-    /*
-    float x,y;
-
-    x = xo+vxo*n*(0.001*T);
-    y = yo+vyo*n*(0.001*T)-0.5*g*n*(0.001*T)*n*(0.001*T);
-
-    p->setPos(int(x),int(h-y-p->get_h()));
-    n++;*/
-
-    //if Condicional para que si el proyectil sale del tamaño del graphics sea eliminado de este
+    proyect_->setX(proyect_->x()+5);  //SE MUEVE DE MANERA RECTILINEA
 }
 
 void inicio::generar_enemy(QList<enemigo1*> lista_enemigos)
@@ -131,6 +116,22 @@ void inicio::generar_enemy(QList<enemigo1*> lista_enemigos)
         }
         bandera=true;
     }
+}
+
+void inicio::nivel()
+{
+    //Condicional para cada vez que pase de nivel aumentar en 1
+}
+
+void inicio::vidas()
+{
+    //Reducir las vidas cada vez que el enemigo toca al jugador o las balas del jefe final tocan al jugador
+}
+
+void inicio::tiempo()
+{
+    ui->lcdNumber->display(contador);
+    contador -=1;
 }
 
 void inicio::movimientos_enemigos()

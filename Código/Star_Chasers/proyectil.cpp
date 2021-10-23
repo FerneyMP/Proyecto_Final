@@ -4,7 +4,7 @@ proyectil::proyectil()
 {
     proyectil_.load(":/new/prefix1/images/proyectil_.jpg");
 }
-
+                    //:/new/prefix1/images/proyectil_.jpg
 void proyectil::set_imagen()
 {
     setPixmap(proyectil_.scaled(scalex,scaley));
