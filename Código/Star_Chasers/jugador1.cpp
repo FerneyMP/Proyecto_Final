@@ -2,7 +2,7 @@
 
 jugador1::jugador1()
 {
-    img.load(":/new/prefix1/images/nave.png");
+    img.load(":/new/prefix1/images/personaje1.png");
 }
 
 

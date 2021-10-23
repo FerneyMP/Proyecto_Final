@@ -11,8 +11,10 @@
 #include <fstream>
 #include <QList>
 #include <math.h>
+#include <QObject>
 
 #include "jugador1.h"
+#include "jugador2.h"
 #include "enemigo1.h"
 #include "window2.h"
 #include "proyectil.h"
@@ -37,7 +39,11 @@ public:
      void nivel();
      void vidas();
      void puntaje();
+     void colisiones();
      int contador = 180;
+     int puntaje1 =  0;
+     int puntaje2 =  0;
+     int vida     =  3;
     ~inicio();
 
 private slots:
@@ -53,6 +59,8 @@ private:
     int h;
     window2 *mapa_1;
     jugador1 *personaje_;
+    jugador2 *personaje2_;
+
     QTimer *time_enemy1;
     QList<enemigo1*> lista_enemigos;
 
@@ -63,6 +71,6 @@ private:
     unsigned long long n=0;
     float x,y;
 
-};
+    };
 
 #endif // INICIO_H

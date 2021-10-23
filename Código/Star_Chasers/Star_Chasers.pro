@@ -12,6 +12,7 @@ SOURCES += \
     enemigo1.cpp \
     inicio.cpp \
     jugador1.cpp \
+    jugador2.cpp \
     main.cpp \
     mainwindow.cpp \
     proyectil.cpp \
@@ -21,6 +22,7 @@ HEADERS += \
     enemigo1.h \
     inicio.h \
     jugador1.h \
+    jugador2.h \
     mainwindow.h \
     proyectil.h \
     window2.h

@@ -5,19 +5,26 @@
 #include <QGraphicsPixmapItem>
 #include <QPixmap>
 #include <QTimer>
+#include "jugador1.h"
+#include <QList>
 
-
-class proyectil: QObject, public QGraphicsPixmapItem
+class proyectil: public QObject, public QGraphicsPixmapItem
 {
+
 public:
-    proyectil();
+    proyectil(int a);
     void set_imagen();
     void set_scale(int a, int b);
+    ~proyectil();
+
+public slots:
+    void movimiento();
+    void activar();
 
 private:
     QPixmap proyectil_;
     int scalex =1, scaley= 1;
-
+    QTimer *timer;
 };
 
 #endif // PROYECTIL_H

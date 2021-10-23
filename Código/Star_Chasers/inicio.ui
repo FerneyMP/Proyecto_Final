@@ -29,7 +29,7 @@
      <rect>
       <x>0</x>
       <y>20</y>
-      <width>231</width>
+      <width>221</width>
       <height>71</height>
      </rect>
     </property>
@@ -54,8 +54,17 @@
      </item>
      <item row="0" column="1">
       <widget class="QLCDNumber" name="lcdNumber">
+       <property name="font">
+        <font>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+         <strikeout>false</strikeout>
+         <kerning>true</kerning>
+        </font>
+       </property>
        <property name="value" stdset="0">
-        <double>0.000000000000000</double>
+        <double>180.000000000000000</double>
        </property>
       </widget>
      </item>
@@ -138,7 +147,11 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLCDNumber" name="lcdNumber_3"/>
+      <widget class="QLCDNumber" name="lcdNumber_3">
+       <property name="value" stdset="0">
+        <double>3.000000000000000</double>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>

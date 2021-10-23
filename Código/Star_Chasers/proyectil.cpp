@@ -1,8 +1,11 @@
 #include "proyectil.h"
 
-proyectil::proyectil()
+proyectil::proyectil(int a)
 {
-    proyectil_.load(":/new/prefix1/images/proyectil_.jpg");
+    if(a == 1) proyectil_.load(":/new/prefix1/images/proyectil_.jpg");
+    else if(a == 2) proyectil_.load(":/new/prefix1/images/shoot_2.png");
+    //timer = new QTimer;
+    //connect(timer, SIGNAL(timeout()),this, SLOT(movimiento()));
 }
                     //:/new/prefix1/images/proyectil_.jpg
 void proyectil::set_imagen()
@@ -16,9 +19,17 @@ void proyectil::set_scale(int a, int b)
     scaley = b;
 }
 
-/*
 void proyectil::activar()
 {
-    timer->start(250);
-}*/
 
+}
+
+proyectil::~proyectil()
+{
+    //delete timer;
+}
+
+void proyectil::movimiento()
+{
+    setPos(x()+5,y());
+}
