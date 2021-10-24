@@ -11,11 +11,12 @@
 #include <fstream>
 
 #include "window2.h"
-
 #include "jugador1.h"
 #include "enemigo1.h"
 #include "proyectil.h"
+
 #include "inicio.h"
+
 #define DataBase "DataBase.txt" //Macro string para la definición del nombre del archivo
 using namespace std;
 

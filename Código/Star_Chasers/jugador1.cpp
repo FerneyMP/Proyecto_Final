@@ -17,5 +17,3 @@ void jugador1::set_scale(int a, int b)
     scalex=a; //cantidad de pixeles
     scaley=b;
 }
-
-
