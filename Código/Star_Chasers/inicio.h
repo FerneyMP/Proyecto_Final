@@ -34,6 +34,7 @@ public:
 
     explicit inicio(QWidget *parent = nullptr);
      void setup_scene1();
+     void setup_scene2();
      void keyPressEvent(QKeyEvent *tecla);
      void generar_enemy(QList<enemigo1*> lista_enemigos);
      void nivel();
@@ -51,19 +52,22 @@ private slots:
    void movimiento_proyectil();
    void tiempo();
 
+   void movimiento_jefe();
+
 private:
     Ui::inicio *ui;
-    QGraphicsScene *scene1;
+    QGraphicsScene *scene1, *scene2;
     //QGraphicsView *View2;
 
     int h;
-    window2 *mapa_1;
+    window2 *mapa_1, *mapa_2;
     jugador1 *personaje_;
     jugador2 *personaje2_;
 
-    QTimer *time_enemy1;
+    QTimer *time_enemy1, *time_enemyFinal;
     QList<enemigo1*> lista_enemigos;
 
+    enemigo1 *jefe_final;
     proyectil *proyect_;
     QTimer *Time_Proyec;
     QTimer *tempo;
