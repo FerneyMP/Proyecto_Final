@@ -38,7 +38,6 @@ void inicio::setup_scene1()
     Time_Proyec = new QTimer; // timer para el proyectil
     connect(Time_Proyec,SIGNAL(timeout()),this,SLOT(movimiento_proyectil()));
 
-
      scene1 = new QGraphicsScene;
      mapa_1 = new window2(ui->View2->width()-2,ui->View2->height()-2,2);
      scene1->setSceneRect(0,0,ui->View2->width()-2,ui->View2->height()-2);
@@ -56,7 +55,7 @@ void inicio::setup_scene1()
      personaje2_ = new jugador2;
      personaje2_->set_scale(tam,tam);
      //h=ui->View2->height();
-     personaje2_->setPos(0,500);
+     personaje2_->setPos(0, ui->View2->height()-tam);
      personaje2_->set_imagen();
      scene1->addItem(personaje2_);
 
@@ -110,30 +109,41 @@ void inicio::keyPressEvent(QKeyEvent *tecla)
      //posicion xy del personaje (esto se usa para el disparo)
     /*Funcion para generar el movimiento del personaje a partir de las teclas
     el movimiento de un solo jugador se da con las teclas W S y se dispara con la tecla R*/
-
     if (tecla-> key() == Qt:: Key_W) {  //movimiento hacia arriba
-        if ( personaje_->y()>0) personaje_-> setY(personaje_->y()-5);
+            personaje_->movimientoJugador(true);
+
     }
     else if (tecla-> key() == Qt:: Key_S) { //movimiento hacia abajo
-        if (personaje_->y()+(tam)<ui->View2->height()-2) personaje_-> setY(personaje_->y()+5);
+        if (personaje_->y()+(tam)<ui->View2->height()-2){
+            personaje_->movimientoJugador(false);
+        }
     }
     else if ( tecla-> key() == Qt::Key_8){
-        if ( personaje2_->y()>0) personaje2_-> setY(personaje2_->y()-5);
+
+        if ( personaje2_->y()>0){
+            personaje2_-> setY(personaje2_->y()-5);
+
+            //keysPressed += tecla->key();
+        }
+
         //personaje2_->setY(personaje2_->y()+5);
     }
     else if ( tecla->key() == Qt::Key_5){
-        if (personaje2_->y()+(tam)<ui->View2->height()-2) personaje2_-> setY(personaje2_->y()+5);
-
+        if (personaje2_->y()+(tam)<ui->View2->height()-2){
+            personaje2_-> setY(personaje2_->y()+5);
+        }
     }
     else if (tecla-> key() == Qt::Key_R){ //aqui se anade el objeto de la clase disparo
-        proyect_ = new proyectil(1); //para que genere nuevas posiciones de memoria cada vez que se dispara
+        proyect_ = new proyectil(1);
+        //para que genere nuevas posiciones de memoria cada vez que se dispara
         proyect_->set_scale(tam/3,tam/3);
         proyect_->setPos(personaje_->x()+tam*0.38, personaje_->y()+tam*0.38); //Se ubica el proyectil en la posición del personaje
         proyect_->set_imagen();
         scene1->addItem(proyect_);
+        lista_proyectiles.push_back(proyect_);
         Time_Proyec->start(40);
     }
-    else if ( tecla-> key() == Qt::Key_P){
+    else if ( tecla-> key() == Qt::Key_P){        
         proyect_ = new proyectil(2);
         proyect_->set_scale(tam/3,tam/3);
         proyect_->setPos(personaje2_->x()+tam*0.38, personaje2_->y()+tam*0.38); //Se ubica el proyectil en la posición del personaje
@@ -147,19 +157,10 @@ void inicio::keyPressEvent(QKeyEvent *tecla)
 
 void inicio::movimiento_proyectil()
 {
-    /*
-    QList<QGraphicsItem *> colliding_items;
-    for ( int i = 0, n = colliding_items.size(); i < n; ++i){
-        if( typeid (*(colliding_items[i]))==typeid (lista_enemigos[i])){
-            scene1->removeItem(colliding_items[i]);
-            scene1->removeItem(proyect_);
-            delete colliding_items[i];
-            delete this;
-            return;
-        }
-    }*/
-
-    proyect_->setX(proyect_->x()+5);  //SE MUEVE DE MANERA RECTILINEA
+    for(int i = 0; i<lista_proyectiles.size(); i++){
+        lista_proyectiles[i]->setX(lista_proyectiles[i]->x()+5);  //SE MUEVE DE MANERA RECTILINEA
+    }
+    //2 casos
     colisiones();
 }
 
@@ -207,15 +208,15 @@ void inicio::vidas()
 
 void inicio::colisiones()
 {
-    int xProyectil = proyect_->x();
-    for(int i = 0; i<lista_enemigos.size(); i++){
-        if(xProyectil == lista_enemigos[i]->x()){
-            scene1->removeItem(lista_enemigos[i]);
-            scene1->removeEventFilter(proyect_);
-            puntaje1 += 100;
-            ui->lcdNumber_2->display(puntaje1);
+    for (int j=0;j<lista_proyectiles.size() ;j++ ) {
+        if(lista_proyectiles[j]->activar(&lista_enemigos,puntaje1,scene1)){
+            scene1->removeItem(lista_proyectiles[j]);
+            delete lista_proyectiles[j];
+            lista_proyectiles.removeAt(j);
+            puntaje1+=100;
         }
-    }
+    };
+    ui->lcdNumber_2->display(puntaje1);
 }
 
 /*void inicio::activar_jefe()
@@ -286,11 +287,11 @@ void inicio::movimientos_enemigos()
    }
    if (lista_enemigos.size()==0 && vivo==true){
             //crear un cuadro de dialogo (fase jefe final)
-            cambiar = true;
-            ui->View2->hide();
+            //cambiar = true;
+            //ui->View2->hide();
             //scene1->removeItem(personaje_);
             //delete personaje_;
-            setup_scene2(); // funcion para la fase de jefe final
+            //setup_scene2(); // funcion para la fase de jefe final
    }
 }
 
@@ -317,3 +318,30 @@ void inicio::movimientos_asteroides()
 
 }
 
+/*
+
+//    ECUACIONES DE MOV CIRCULAR UNIFORME:
+//    X(n)=(X(n-1)-Cx)*cos(wT)-(Y(n-1)-cy)*sen(wT)+cx
+//    Y(n)=(Y(n-1)-Cy)*cos(wT)+(X(n-1)-cx)*sen(wT)+cy
+    float aux,auxy;
+    aux=posx-cx;
+    auxy=posy-cy;
+    posx=(aux)*cos(w*t)-(auxy)*sin(w*t)+cx;
+    posy=(auxy)*cos(w*t)+(aux)*sin(w*t)+cy;
+   // posx=posx+100;
+
+    setPos(int(posx),int(posy));
+
+
+    X= R(circulo)*Cos(wNT)+ Xo
+    Y= R(circulo)*Sen(wNT)+ Yo
+    N-->contador --- > trabajarlo como entero
+    */
+
+
+/* ECUACIONES DE MOV PARABOLICO:
+ *     float x,y;
+
+    x = xo+vxo*n*(0.001*T);
+    y = yo+vyo*n*(0.001*T)-0.5*g*n*(0.001*T)*n*(0.001*T);
+    */

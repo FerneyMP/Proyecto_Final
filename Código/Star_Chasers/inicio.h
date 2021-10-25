@@ -12,6 +12,7 @@
 #include <QList>
 #include <math.h>
 #include <QObject>
+#include<QGraphicsItem>
 
 #include "jugador1.h"
 #include "jugador2.h"
@@ -38,11 +39,13 @@ public:
      void setup_scene1();
      void setup_scene2();
      void keyPressEvent(QKeyEvent *tecla);
+     void KeyReleaseEvent(QKeyEvent *tecla);
+     void generar_asteroide(QList<asteroide *> lista_asteroide);
      void generar_enemy(QList<enemigo1*> lista_enemigos);
      void nivel();
      void vidas();
      void puntaje();
-     void colisiones();
+
      int contador = 180;
      int puntaje1 =  0;
      int puntaje2 =  0;
@@ -59,7 +62,8 @@ private slots:
    void movimiento_jefe();
    void movimientoProyectil_jefe();
    void movimientos_asteroides();
-
+public slots:
+   void colisiones();
 
 private:
     Ui::inicio *ui;
@@ -73,6 +77,7 @@ private:
 
     QTimer *time_enemy1, *time_enemyFinal;
     QList<enemigo1*> lista_enemigos;
+    QList<proyectil *> lista_proyectiles;
 
     enemigo1 *jefe_final;
     proyectil *proyect_;

@@ -5,8 +5,10 @@
 #include <QGraphicsPixmapItem>
 #include <QPixmap>
 #include <QTimer>
-#include "jugador1.h"
+#include "enemigo1.h"
+
 #include <QList>
+#include <QGraphicsScene>
 
 class proyectil: public QObject, public QGraphicsPixmapItem
 {
@@ -19,7 +21,7 @@ public:
 
 public slots:
     void movimiento();
-    void activar();
+    bool activar(QList <enemigo1 *> *lista_enemigos, int puntaje1, QGraphicsScene *escena);
 
 private:
     QPixmap proyectil_;
