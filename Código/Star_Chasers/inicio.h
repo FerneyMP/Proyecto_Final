@@ -18,9 +18,11 @@
 #include "enemigo1.h"
 #include "window2.h"
 #include "proyectil.h"
+#include "asteroide.h"
 
 #define tam 50
 #define cantidad_enemigos 10
+#define cantidad_asteroides 3
 
 namespace Ui {
 class inicio;
@@ -45,14 +47,19 @@ public:
      int puntaje1 =  0;
      int puntaje2 =  0;
      int vida     =  3;
+     bool cambiar = false;
     ~inicio();
 
 private slots:
    void movimientos_enemigos();
    void movimiento_proyectil();
+   //void activar_jefe();
    void tiempo();
 
    void movimiento_jefe();
+   void movimientoProyectil_jefe();
+   void movimientos_asteroides();
+
 
 private:
     Ui::inicio *ui;
@@ -69,6 +76,9 @@ private:
 
     enemigo1 *jefe_final;
     proyectil *proyect_;
+
+    QList<asteroide*> lista_asteroides;
+
     QTimer *Time_Proyec;
     QTimer *tempo;
     float xo,yo, vxo = 4.5, vyo = 5, g = 1, T = 1; //velocidad(x,y) y gravedad constantes, posicion(x,y) varían

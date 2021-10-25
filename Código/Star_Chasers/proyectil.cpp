@@ -31,5 +31,5 @@ proyectil::~proyectil()
 
 void proyectil::movimiento()
 {
-    setPos(x()+5,y());
+    //setPos(x()+5,y());
 }

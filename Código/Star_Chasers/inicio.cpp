@@ -14,6 +14,7 @@ inicio::inicio(QWidget *parent) :
 
     srand(time(NULL)); //crear la semilla para el # aleatorio
     setup_scene1();
+    //activar_jefe();
 }
 
 inicio::~inicio()
@@ -25,6 +26,7 @@ inicio::~inicio()
     delete tempo;
     delete personaje_;
     delete personaje2_;
+    //delete asteroide_;
 }
 
 void inicio::setup_scene1()
@@ -66,6 +68,13 @@ void inicio::setup_scene1()
      }
      generar_enemy( lista_enemigos);
      time_enemy1->start(90);
+
+     //creacion de los asteroides
+     asteroide *asteroide_;
+     for (int j=0;j<cantidad_asteroides;j++ ) {
+         asteroide_=new asteroide;
+         lista_asteroides.push_back(asteroide_);
+     }
 }
 
 void inicio::setup_scene2()
@@ -204,10 +213,17 @@ void inicio::colisiones()
             scene1->removeItem(lista_enemigos[i]);
             scene1->removeEventFilter(proyect_);
             puntaje1 += 100;
-            ui->lcdNumber_4->display(puntaje1);
+            ui->lcdNumber_2->display(puntaje1);
         }
     }
 }
+
+/*void inicio::activar_jefe()
+{
+    if(cambiar == true){
+        setup_scene2();
+    }
+}*/
 
 void inicio::tiempo()
 {
@@ -270,10 +286,10 @@ void inicio::movimientos_enemigos()
    }
    if (lista_enemigos.size()==0 && vivo==true){
             //crear un cuadro de dialogo (fase jefe final)
-
+            cambiar = true;
             ui->View2->hide();
-            scene1->removeItem(personaje_);
-            delete personaje_;
+            //scene1->removeItem(personaje_);
+            //delete personaje_;
             setup_scene2(); // funcion para la fase de jefe final
    }
 }
@@ -286,6 +302,18 @@ void inicio::movimiento_jefe()
     }*/
 
    // if ( jefe_final->y()+(tam)<ui->View2->height()-2) jefe_final-> setY( jefe_final->y()-5);
+
+}
+
+void inicio::movimientoProyectil_jefe()
+{
+    //definir el movimiento parabólico del jefe final
+
+}
+
+void inicio::movimientos_asteroides()
+{
+    //Movimiento de manera pedular?
 
 }
 
