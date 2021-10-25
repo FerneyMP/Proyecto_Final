@@ -55,7 +55,7 @@ public:
 
 private slots:
    void movimientos_enemigos();
-   void movimiento_proyectil();
+   void ActivarMov_proyectil();
    //void activar_jefe();
    void tiempo();
 
@@ -63,29 +63,32 @@ private slots:
    void movimientoProyectil_jefe();
    void movimientos_asteroides();
 public slots:
-   void colisiones();
+   void colisiones(QList<proyectil *> &l);
 
 private:
     Ui::inicio *ui;
     QGraphicsScene *scene1, *scene2;
-    //QGraphicsView *View2;
 
-    int h;
     window2 *mapa_1, *mapa_2;
-    jugador1 *personaje_;
-    jugador2 *personaje2_;
+    jugador1 *personaje_;  //Jugador 1
+    jugador1 *personaje2_; //Jugador 2
 
-    QTimer *time_enemy1, *time_enemyFinal;
-    QList<enemigo1*> lista_enemigos;
-    QList<proyectil *> lista_proyectiles;
+    QList<enemigo1*> lista_enemigos;        //Lista de enemigos
+    QList<proyectil *> lista_proyectiles;   //Lista de proyectiles Jugador 1
+    QList<proyectil *> lista_proyectilesJ2; //Lista de proyectiles Jugador 2
 
     enemigo1 *jefe_final;
-    proyectil *proyect_;
 
-    QList<asteroide*> lista_asteroides;
+    proyectil *proyect_; //Proyectil Jugador 1
+    proyectil *proyect2; //Proyectil Jugador 2
 
+    QList<asteroide*> lista_asteroides;    
+
+    //timers usados en esta clase:
+    QTimer *time_enemy1, *time_enemyFinal;
     QTimer *Time_Proyec;
     QTimer *tempo;
+
     float xo,yo, vxo = 4.5, vyo = 5, g = 1, T = 1; //velocidad(x,y) y gravedad constantes, posicion(x,y) varían
     unsigned long long n=0;
     float x,y;

@@ -5,13 +5,14 @@
 #include<QGraphicsPixmapItem>
 #include <QPixmap>
 #include <QTimer>
+#include <QList>
 #define tam 50
 
 class jugador1 : public QObject, public QGraphicsPixmapItem //Herencia
 {
     Q_OBJECT
 public:
-    jugador1();
+    jugador1(bool modo);
     ~jugador1();
     void set_imagen();
     void set_scale(int a, int b);
@@ -25,6 +26,8 @@ private:
     QTimer *time;
     bool bandera = false;
     bool controla = false;
+
+
 
 };
 

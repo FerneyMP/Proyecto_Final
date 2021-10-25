@@ -2,7 +2,7 @@
 #define ENEMIGO1_H
 
 #include <QObject>
-#include<QGraphicsPixmapItem>
+#include <QGraphicsPixmapItem>
 #include <QPixmap>
 
 class enemigo1  : public QObject, public QGraphicsPixmapItem
@@ -16,8 +16,6 @@ public:
 private:
     QPixmap enemy1, imgn, enemy2, jefe_final;
     int scalex = 1, scaley=1;
-
-
 };
 
 #endif // ENEMIGO1_H

@@ -4,10 +4,8 @@ proyectil::proyectil(int a)
 {
     if(a == 1) proyectil_.load(":/new/prefix1/images/proyectil_.jpg");
     else if(a == 2) proyectil_.load(":/new/prefix1/images/shoot_2.png");
-    //timer = new QTimer;
-    //connect(timer, SIGNAL(timeout()),this, SLOT(activar()));
 }
-                    //:/new/prefix1/images/proyectil_.jpg
+
 void proyectil::set_imagen()
 {
     setPixmap(proyectil_.scaled(scalex,scaley));
@@ -19,7 +17,7 @@ void proyectil::set_scale(int a, int b)
     scaley = b;
 }
 
-bool proyectil::activar(QList<enemigo1 *> *lista_enemigos, int puntaje1, QGraphicsScene *escena)
+bool proyectil::activar(QList<enemigo1 *> *lista_enemigos, QGraphicsScene *escena)
 {
     bool bandera = false;
     for(int i=0; i<lista_enemigos->size(); i++){
@@ -34,14 +32,13 @@ bool proyectil::activar(QList<enemigo1 *> *lista_enemigos, int puntaje1, QGraphi
     return bandera;
 }
 
-
-proyectil::~proyectil()
+void proyectil::movimiento_proyectil(QList<proyectil *> lista_proyectiles)
 {
-    //delete timer;
+    for(int i = 0; i<lista_proyectiles.size(); i++){
+        lista_proyectiles[i]->setX(lista_proyectiles[i]->x()+5);  //SE MUEVE DE MANERA RECTILINEA
+    }
 }
 
-void proyectil::movimiento()
-{
-    //setPos(x()+5,y());
-}
+
+
 

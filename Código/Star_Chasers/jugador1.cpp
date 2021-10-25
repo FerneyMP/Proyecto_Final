@@ -1,8 +1,13 @@
 #include "jugador1.h"
 
-jugador1::jugador1()
+jugador1::jugador1(bool modo)
 {
+    if(modo){
     img.load(":/new/prefix1/images/personaje1.png");
+    }
+    else{
+        img.load(":/new/prefix1/images/personaje2_.png");
+    }
     time = new QTimer;
     connect(time,SIGNAL(timeout()),this,SLOT(tiempo_mov()));
 }
