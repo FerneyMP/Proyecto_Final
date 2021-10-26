@@ -6,7 +6,7 @@ inicio::inicio(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::inicio)
 {
-    ui->setupUi(this);    
+    ui->setupUi(this);
     tempo = new QTimer(this);
     connect(tempo, SIGNAL(timeout()),this,SLOT(tiempo()));
     tempo->start(1000);
@@ -27,7 +27,9 @@ inicio::~inicio()
     delete personaje_;
     delete personaje2_;
     delete proyect2;
-    //delete asteroide_;
+    delete proyect3;
+    delete Time_ProyecJF;
+   // delete asteroide;
 }
 
 void inicio::setup_scene1()
@@ -36,6 +38,7 @@ void inicio::setup_scene1()
 
     time_enemy1 = new QTimer; //timer para el enemigo
     connect(time_enemy1,SIGNAL(timeout()),this,SLOT(movimientos_enemigos()));
+
     Time_Proyec = new QTimer; // timer para el proyectil
     connect(Time_Proyec,SIGNAL(timeout()),this,SLOT(ActivarMov_proyectil()));
 
@@ -52,12 +55,16 @@ void inicio::setup_scene1()
      personaje_->set_imagen();
      scene1->addItem(personaje_);
 
+     jugadores.push_back(personaje_);
+
      //creacion personaje2
      personaje2_ = new jugador1(false);
      personaje2_->set_scale(tam,tam);
      personaje2_->setPos(0, ui->View2->height()-tam);
      personaje2_->set_imagen();
      scene1->addItem(personaje2_);
+
+     jugadores.push_back(personaje2_);
 
      //creacion de los enemigos
      enemigo1 *enemigo;
@@ -66,7 +73,7 @@ void inicio::setup_scene1()
             lista_enemigos.push_back(enemigo);
      }
      generar_enemy( lista_enemigos);
-     time_enemy1->start(90);
+     time_enemy1->start(30);
 
      //creacion de los asteroides
      asteroide *asteroide_;
@@ -74,12 +81,17 @@ void inicio::setup_scene1()
          asteroide_=new asteroide;
          lista_asteroides.push_back(asteroide_);
      }
+     generar_asteroide( lista_asteroides);
+
 }
 
 void inicio::setup_scene2()
 {
     time_enemyFinal = new QTimer; //timer para el jefe final
     connect(time_enemyFinal,SIGNAL(timeout()),this,SLOT(movimiento_jefe()));
+
+    Time_ProyecJF = new QTimer; // timer para el proyectil del jefe final
+    connect(Time_ProyecJF,SIGNAL(timeout()),this,SLOT(ActivarMov_proyectil_JF()));
 
     scene2 = new QGraphicsScene;
     mapa_2 = new window2(ui->View2->width()-2,ui->View2->height()-2,3);
@@ -94,21 +106,28 @@ void inicio::setup_scene2()
     personaje_->set_imagen();
     scene2->addItem(personaje_);
 
+    //creacion personaje2
+    personaje2_ = new jugador1(false);
+    personaje2_->set_scale(tam,tam);
+    personaje2_->setPos(0, ui->View2->height()-tam);
+    personaje2_->set_imagen();
+    scene2->addItem(personaje2_);
+
     jefe_final = new enemigo1;
     jefe_final->set_scale(tam,tam);
     jefe_final->setPos((ui->View2->width()-2)/2,(ui->View2->height()-2)/2);
     jefe_final->set_imagen(3);
     scene2->addItem(jefe_final);
-    time_enemyFinal->start(1000);
-
+    time_enemyFinal->start(30);
 
 }
 
 void inicio::keyPressEvent(QKeyEvent *tecla)
 {
-     //posicion xy del personaje (esto se usa para el disparo)
+    //posicion xy del personaje (esto se usa para el disparo)
     /*Funcion para generar el movimiento del personaje a partir de las teclas
     el movimiento de un solo jugador se da con las teclas W S y se dispara con la tecla R*/
+
     if (tecla-> key() == Qt:: Key_W) {  //movimiento hacia arriba
         if(personaje_->y()>0){
             personaje_->movimientoJugador(true);}
@@ -144,7 +163,7 @@ void inicio::keyPressEvent(QKeyEvent *tecla)
         Time_Proyec->start(40);
     }
 
-    else if ( tecla-> key() == Qt::Key_P){        
+    else if ( tecla-> key() == Qt::Key_P){
         proyect2 = new proyectil(2);
         proyect2->set_scale(tam/3,tam/3);
         proyect2->setPos(personaje2_->x()+tam*0.38, personaje2_->y()+tam*0.38); //Se ubica el proyectil en la posición del personaje
@@ -158,12 +177,19 @@ void inicio::keyPressEvent(QKeyEvent *tecla)
 
 void inicio::ActivarMov_proyectil()
 {
-    proyect_->movimiento_proyectil(lista_proyectiles);
-    proyect2->movimiento_proyectil(lista_proyectilesJ2);
+    proyect_->movimiento_proyectil(lista_proyectiles,1);
+    proyect2->movimiento_proyectil(lista_proyectilesJ2,1);
     //2 casos
 
-    colisiones(lista_proyectiles);
-    colisiones(lista_proyectilesJ2);
+    colisiones(lista_proyectiles,1);
+    colisiones(lista_proyectilesJ2,1);
+}
+
+void inicio::ActivarMov_proyectil_JF()
+{
+    generar_proyectil_JF();
+    proyect3->movimiento_proyectil(lista_proyectilesJF,2);
+    colisiones(lista_proyectilesJF,2);
 }
 
 void inicio::generar_enemy(QList<enemigo1*> lista_enemigos)
@@ -198,6 +224,50 @@ void inicio::generar_enemy(QList<enemigo1*> lista_enemigos)
     }
 }
 
+void inicio::generar_proyectil_JF()
+{
+    proyect3 = new proyectil(3);
+    proyect3->set_scale(tam,tam);
+    proyect3->setPos(jefe_final->x()+tam*0.38, jefe_final->y()+tam*0.38); //Se ubica el proyectil en la posición del jefe //
+    proyect3->set_imagen();
+    scene2->addItem(proyect3);
+    lista_proyectilesJF.push_back(proyect3);
+    Time_ProyecJF->start(40);
+
+}
+
+void inicio::generar_asteroide(QList<asteroide*> lista_asteroides)
+{
+    //Funcion que se encarga de generar las posiciones aleatorias de (x,y) para ubicar los asteroides en el juego
+
+    bool bandera=true;
+    int aleatorioX, aleatorioY;
+    for (int i=0; i<lista_asteroides.size();i++ ){
+        lista_asteroides[i]->set_scale(tam,tam);
+
+        //se generarn los numeros aleatorios
+        aleatorioX=(rand()%(ui->View2->width()-2));
+        aleatorioY = rand()%((ui->View2->height()-2)-2*tam);
+
+        for (int j=0; j<i ;j++){ //j son los objetos ya creados
+           float w=(lista_asteroides[i]->size)*0.5;
+           // coordenadas de los centros
+           float x1=lista_asteroides[j]->x()+w,x2=aleatorioX+w;
+           float y1=lista_asteroides[j]->y()+w,y2=aleatorioY+w;
+           float dist=sqrt(pow((x1-x2),2)+pow((y1-y2),2)); //formula de la distancia entre los centros
+           //comprobar que las imagenes no esten una encima de otra
+           if (dist<=sqrt(2)*lista_asteroides[i]->size) bandera=false;
+        }
+        if (!bandera) i--; //vuelve a repetir todo el proceso con el mismo elemento
+        else {
+            lista_asteroides[i]->setPos(aleatorioX, aleatorioY);
+            lista_asteroides[i]->set_imagen();
+            scene1->addItem( lista_asteroides[i]);
+        }
+        bandera=true;
+    }
+}
+
 void inicio::nivel()
 {
     //Condicional para cada vez que pase de nivel aumentar en 1
@@ -208,17 +278,32 @@ void inicio::vidas()
     //Reducir las vidas cada vez que el enemigo toca al jugador o las balas del jefe final tocan al jugador
 }
 
-void inicio::colisiones(QList<proyectil *> &l)
+void inicio::colisiones(QList<proyectil *> &l, int a)
 {
-    for (int j=0;j<l.size() ;j++ ) {
-        if(l[j]->activar(&lista_enemigos,scene1)){
-            scene1->removeItem(l[j]);
-            delete l[j];
-            l.removeAt(j);
-            puntaje1+=100;
+    if (a==1){
+        for (int j=0;j<l.size() ;j++ ) {
+            if(l[j]->activar(&lista_enemigos,scene1)){
+                scene1->removeItem(l[j]);
+                delete l[j];
+                l.removeAt(j);
+                puntaje1+=100;
+            }
+        };
+        ui->lcdNumber_2->display(puntaje1);
         }
-    };
-    ui->lcdNumber_2->display(puntaje1);
+
+    else {
+
+       for (int i=0; i< l.size(); i++){
+           if (l[i]->activar_JF(&jugadores, scene2)){
+               scene2->removeItem(l[i]);
+               delete l[i];
+               l.removeAt(i);
+               vida-=1;
+           }
+       }
+       ui->lcdNumber_3->display(vida);
+    }
 }
 
 void inicio::tiempo()
@@ -231,7 +316,7 @@ void inicio::movimientos_enemigos()
 {
     //Funcion que se encarga de crear los puntos (x,y) aleatorios de cada enemigo
 
-    bool vivo=true;
+
     /*CORREGIR
       for (int i=0; i<lista_enemigos.size(); i++){
         lista_enemigos[i]->set_scale(tam,tam);
@@ -282,22 +367,21 @@ void inicio::movimientos_enemigos()
    }
    if (lista_enemigos.size()==0 && vivo==true){
             //crear un cuadro de dialogo (fase jefe final)
-            //cambiar = true;
-            //ui->View2->hide();
+            cambiar = true;
+            ui->View2->hide();
             //scene1->removeItem(personaje_);
             //delete personaje_;
-            //setup_scene2(); // funcion para la fase de jefe final
+            setup_scene2(); // funcion para la fase de jefe final
+            vivo=false;
    }
 }
 
 void inicio::movimiento_jefe()
 {
-    jefe_final-> setY(jefe_final->y()+5);
-   /* if ( jefe_final->y()<0){
-        jefe_final-> setY(jefe_final->y()+5);
-    }*/
-
-   // if ( jefe_final->y()+(tam)<ui->View2->height()-2) jefe_final-> setY( jefe_final->y()-5);
+    //Funcion para generar el movimiento vertical del jefe final
+    if ( jefe_final->y()<=0) cambio=1;
+    else if ( jefe_final->y()+(tam)>ui->View2->height()-2)cambio=-1;
+    jefe_final-> setY(jefe_final->y()+5*cambio);
 
 }
 

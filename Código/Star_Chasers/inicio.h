@@ -22,7 +22,7 @@
 #include "asteroide.h"
 
 #define tam 50
-#define cantidad_enemigos 10
+#define cantidad_enemigos 1
 #define cantidad_asteroides 3
 
 namespace Ui {
@@ -42,6 +42,7 @@ public:
      void KeyReleaseEvent(QKeyEvent *tecla);
      void generar_asteroide(QList<asteroide *> lista_asteroide);
      void generar_enemy(QList<enemigo1*> lista_enemigos);
+     void generar_proyectil_JF();
      void nivel();
      void vidas();
      void puntaje();
@@ -51,19 +52,23 @@ public:
      int puntaje2 =  0;
      int vida     =  3;
      bool cambiar = false;
+
     ~inicio();
 
 private slots:
    void movimientos_enemigos();
    void ActivarMov_proyectil();
+   void ActivarMov_proyectil_JF();
+
    //void activar_jefe();
    void tiempo();
 
    void movimiento_jefe();
    void movimientoProyectil_jefe();
    void movimientos_asteroides();
+
 public slots:
-   void colisiones(QList<proyectil *> &l);
+   void colisiones(QList<proyectil *> &l, int a);
 
 private:
     Ui::inicio *ui;
@@ -76,22 +81,28 @@ private:
     QList<enemigo1*> lista_enemigos;        //Lista de enemigos
     QList<proyectil *> lista_proyectiles;   //Lista de proyectiles Jugador 1
     QList<proyectil *> lista_proyectilesJ2; //Lista de proyectiles Jugador 2
+    QList<proyectil *> lista_proyectilesJF; //Lista de proyectiles jefe final
+    QList <jugador1 *> jugadores;
 
     enemigo1 *jefe_final;
 
     proyectil *proyect_; //Proyectil Jugador 1
     proyectil *proyect2; //Proyectil Jugador 2
+    proyectil *proyect3; //Proyectil jefe final
 
     QList<asteroide*> lista_asteroides;    
 
     //timers usados en esta clase:
     QTimer *time_enemy1, *time_enemyFinal;
-    QTimer *Time_Proyec;
+    QTimer *Time_Proyec, *Time_ProyecJF;
     QTimer *tempo;
 
     float xo,yo, vxo = 4.5, vyo = 5, g = 1, T = 1; //velocidad(x,y) y gravedad constantes, posicion(x,y) varían
     unsigned long long n=0;
     float x,y;
+
+    bool vivo=true;
+    short cambio=1;
 
     };
 
