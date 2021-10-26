@@ -5,6 +5,7 @@
 #include <QGraphicsPixmapItem>
 #include <QPixmap>
 #include "enemigo1.h"
+#include "jugador1.h"
 
 #include <QList>
 #include <QGraphicsScene>
@@ -20,7 +21,8 @@ public:
 public slots:
     void movimiento();
     bool activar(QList <enemigo1 *> *lista_enemigos, QGraphicsScene *escena);
-    void movimiento_proyectil(QList<proyectil *> lista_proyectiles);
+    bool activar_JF (QList<jugador1 *> *lista_jugadores, QGraphicsScene *escena);
+    void movimiento_proyectil(QList<proyectil *> lista_proyectiles, int a);
 
 private:
     QPixmap proyectil_;
