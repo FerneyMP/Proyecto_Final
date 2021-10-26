@@ -43,15 +43,16 @@ public:
      void generar_asteroide(QList<asteroide *> lista_asteroide);
      void generar_enemy(QList<enemigo1*> lista_enemigos);
      void generar_proyectil_JF();
-     void nivel();
-     void vidas();
      void puntaje();
 
      int contador = 180;
      int puntaje1 =  0;
      int puntaje2 =  0;
-     int vida     =  3;
+     int vida     =  6;
+     int nivel_   =  1;
      bool cambiar = false;
+
+     int contadorJF = 0;
 
     ~inicio();
 
@@ -59,6 +60,7 @@ private slots:
    void movimientos_enemigos();
    void ActivarMov_proyectil();
    void ActivarMov_proyectil_JF();
+   void activar_colisiones();
 
    //void activar_jefe();
    void tiempo();
@@ -69,6 +71,7 @@ private slots:
 
 public slots:
    void colisiones(QList<proyectil *> &l, int a);
+   void colisiones_enemigos (QList<jugador1 *> &l);
 
 private:
     Ui::inicio *ui;
@@ -90,19 +93,19 @@ private:
     proyectil *proyect2; //Proyectil Jugador 2
     proyectil *proyect3; //Proyectil jefe final
 
+    asteroide *asteroide_;
+
     QList<asteroide*> lista_asteroides;    
 
     //timers usados en esta clase:
     QTimer *time_enemy1, *time_enemyFinal;
     QTimer *Time_Proyec, *Time_ProyecJF;
-    QTimer *tempo;
-
-    float xo,yo, vxo = 4.5, vyo = 5, g = 1, T = 1; //velocidad(x,y) y gravedad constantes, posicion(x,y) varían
-    unsigned long long n=0;
-    float x,y;
+    QTimer *tempo, *timer_prueba, *timer_prueba2;
 
     bool vivo=true;
     short cambio=1;
+
+
 
     };
 
