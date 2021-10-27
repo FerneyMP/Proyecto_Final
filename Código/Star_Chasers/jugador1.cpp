@@ -10,19 +10,20 @@ jugador1::jugador1(bool modo)
     }
     time = new QTimer;
     connect(time,SIGNAL(timeout()),this,SLOT(tiempo_mov()));
+    time2 = new QTimer;
+    connect(time2,SIGNAL(timeout()),this,SLOT(tiempo_mov2()));
 }
 
 jugador1::~jugador1()
 {
     delete time;
+    delete time2;
 }
-
 
 void jugador1::set_imagen()
 {
      setPixmap(img.scaled(scalex,scaley));
 }
-
 
 void jugador1::set_scale(int a, int b)
 {
@@ -37,6 +38,15 @@ void jugador1::movimientoJugador(bool band)
     if(controla == false){
         time->start(70);
         controla = true;
+    }
+}
+
+void jugador1::movimientoJugador_AD(bool band)
+{
+    bandera2 = band;
+    if(controla2 == false){
+        time2->start(60);
+        controla2 = true;
     }
 }
 
@@ -66,3 +76,12 @@ void jugador1::tiempo_mov()
 
 }
 
+void jugador1::tiempo_mov2()
+{
+    if(bandera2){
+        if(x()>0){
+           setX(x()-5);
+        }
+    }
+    else setX(x()+5);
+}

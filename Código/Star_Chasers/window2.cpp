@@ -22,8 +22,8 @@ window2::window2(int width, int heigth, int a)
 
 
 }
+
 int window2::get_h()
 {
     return h;
 }
-

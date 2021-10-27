@@ -12,5 +12,13 @@
         <file>images/iniciom.png</file>
         <file>images/asteoroide.jpeg</file>
         <file>images/proyectil_Jf.png</file>
+        <file>images/asteroide.png</file>
+        <file>images/enemigo.png</file>
+        <file>images/enemigo2.png</file>
+        <file>images/inicioIM.png</file>
+        <file>images/jefe.jpg</file>
+        <file>images/level2.jpeg</file>
+        <file>images/mapa2.png</file>
+        <file>images/nave.png</file>
     </qresource>
 </RCC>

@@ -16,6 +16,7 @@ class proyectil: public QObject, public QGraphicsPixmapItem
 
 public:
     proyectil(int a);
+
     void set_imagen();
     void set_scale(int a, int b);
     void movimiento_parabolico();
@@ -23,6 +24,7 @@ public:
 public slots:
     bool activar(QList <enemigo1 *> *lista_enemigos, QGraphicsScene *escena);
     bool activar_JF (QList<jugador1 *> *lista_jugadores, QGraphicsScene *escena);
+
     void movimiento_proyectil(QList<proyectil *> lista_proyectiles, int a );
     void generar_movParabolico();
 
