@@ -16,17 +16,12 @@ public:
     ~asteroide();
     void set_imagen();
     void set_scale(int a, int b);
-    //void movimiento_circular(int Xo, int Yo, int r);
     int size;
-
-public slots:
-    void generar_movimiento(QList<asteroide *> lista_asteroides, int Xo, int Yo, int r);
 
 private:
     QPixmap asteroide_;
     int scalex =1, scaley= 1;
-    int N=1, R, T=1, posX, posY, X, Y, w=1; //w frecuencia angular
-    QTimer *time_asteroide;
+
 };
 
 #endif // ASTEROIDE_H

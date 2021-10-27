@@ -49,9 +49,9 @@ bool proyectil::activar_JF(QList<jugador1 *> *lista_jugadores, QGraphicsScene *e
     bool bandera=false;
     for (int i=0; i<lista_jugadores->size(); i++){
         if(collidesWithItem(lista_jugadores->at(i))){
-            escena->removeItem(lista_jugadores->at(i));
+            /*escena->removeItem(lista_jugadores->at(i));
             delete lista_jugadores->at(i);
-            lista_jugadores-> removeAt(i);
+            lista_jugadores-> removeAt(i);*/
             bandera=true;
         }
     }
@@ -80,7 +80,6 @@ void proyectil::generar_movParabolico()
     y = yo+vyo*n*(0.001*T)-0.5*g*n*(0.001*T)*n*(0.001*T);
     n++;
 }
-
 
 
 
