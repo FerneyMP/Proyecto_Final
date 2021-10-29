@@ -1,6 +1,6 @@
 #include "jugador1.h"
 
-jugador1::jugador1(bool modo)
+jugador1::jugador1(bool modo, int a, int b)
 {
     if(modo){
     img.load(":/new/prefix1/images/personaje1.png");
@@ -10,14 +10,15 @@ jugador1::jugador1(bool modo)
     }
     time = new QTimer;
     connect(time,SIGNAL(timeout()),this,SLOT(tiempo_mov()));
-    time2 = new QTimer;
-    connect(time2,SIGNAL(timeout()),this,SLOT(tiempo_mov2()));
+
+    inferior = a;
+    derecho = b;
 }
 
 jugador1::~jugador1()
 {
     delete time;
-    delete time2;
+
 }
 
 void jugador1::set_imagen()
@@ -45,7 +46,7 @@ void jugador1::movimientoJugador_AD(bool band)
 {
     bandera2 = band;
     if(controla2 == false){
-        time2->start(60);
+        time->start(70);
         controla2 = true;
     }
 }
@@ -67,21 +68,15 @@ bool jugador1::activar_enemigos(QList<enemigo1 *> *lista_enemigos, QGraphicsScen
 
 void jugador1::tiempo_mov()
 {
-    if(bandera){
-        if(y()>0){
-           setY(y()-5);
-        }
+    if(bandera && y()>0 ){
+           setY(y()-5);        
     }
-    else setY(y()+5);
-
-}
-
-void jugador1::tiempo_mov2()
-{
-    if(bandera2){
-        if(x()>0){
+    else if (y()+(tam) < inferior) {
+        setY(y()+5);}
+    if(bandera2 && x()>0){
            setX(x()-5);
-        }
     }
-    else setX(x()+5);
+    else if(x()+tam < derecho){
+        setX(x()+5);
+    }
 }

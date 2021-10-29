@@ -21,7 +21,7 @@ MainWindow::~MainWindow()
     delete ui;
     delete scene1;
     delete scene2;
-    delete Window2;
+    delete Window2;    
     delete datos_vida_score;
 }
 
@@ -37,8 +37,6 @@ void MainWindow::setup_scene2()
 void MainWindow::setup_window2()
 {
     Window2 = new QMainWindow(this);//el this depende de la clase mainwindow
-    //esta ventana va depender de la principal
-
     View2 = new QGraphicsView(scene2,Window2);
     View2->setGeometry(0,0,800,600);
 }
@@ -49,11 +47,19 @@ void MainWindow::crear_txt(string name)
     text.close();
 }
 
-void MainWindow::escribir_txt(string nombre, string user, string pass, int vidas, int score)
+void MainWindow::escribir_txt(string nombre, string user, string pass)
 {
 
     fstream text(nombre, fstream::out | fstream::app);
-    text << user << "," << pass << "," << vidas << score << "\n";
+    //text << user << "," << pass << "\n";
+    text << user << "," << pass << "," << 0 << 0<< "\n";
+    text.close();
+}
+
+void MainWindow::reescribir_txt(string nombre, string user, string pass, int life, int puntaje)
+{
+    fstream text(nombre, fstream::out | fstream::app);
+    text << user << "," << pass << "," << life << puntaje << "\n";
     text.close();
 }
 
@@ -87,7 +93,7 @@ void MainWindow::on_AgregarDatos_clicked()
     ui->Start->setEnabled(false);
     ui->IniciarSesion->setEnabled(true);
 
-    escribir_txt(DataBase,usuario_.toStdString(),contrasena_.toStdString(), 3, 0);
+    escribir_txt(DataBase,usuario_.toStdString(),contrasena_.toStdString());
 }
 
 void MainWindow::on_Registrar_clicked()
@@ -157,6 +163,7 @@ void MainWindow::on_Start_clicked()
             //Llamar a la clase que contiene la escena del juego
             inicio * Inicio = new inicio ();
             Inicio-> show();
+            //ui->View2->hide();
             close();
         }
         else{

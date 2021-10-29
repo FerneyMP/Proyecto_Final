@@ -6,6 +6,7 @@
 #include <QPixmap>
 #include "enemigo1.h"
 #include "jugador1.h"
+#include "asteroide.h"
 
 #include <QList>
 #include <QGraphicsScene>
@@ -20,20 +21,24 @@ public:
     void set_imagen();
     void set_scale(int a, int b);
     void movimiento_parabolico();
+    void setOriginal(int a, int b);
+    void colision_elastica();
+    void get_h(int h);
 
 public slots:
     bool activar(QList <enemigo1 *> *lista_enemigos, QGraphicsScene *escena);
-    bool activar_JF (QList<jugador1 *> *lista_jugadores, QGraphicsScene *escena);
-
+    bool activar_JF (QList<jugador1 *> *lista_jugadores);
+    bool activar_ganar( enemigo1 *jefe_final);
+    bool activar_asteroide(QList<asteroide*> *lista_asteroides, QGraphicsScene *escena);
     void movimiento_proyectil(QList<proyectil *> lista_proyectiles, int a );
-    void generar_movParabolico();
 
 private:
     QPixmap proyectil_;
     int scalex =1, scaley= 1;
+    int H;
 
     //Variables para las ecuaciones de movimiento parabólico
-    float xo,yo, vxo = 4.5, vyo = 5, g = 1, T = 1; //velocidad(x,y) y gravedad constantes, posicion(x,y) varían
+    float xo,yo, vxo = 10, vyo = 5, g = 1, T = 1; //velocidad(x,y) y gravedad constantes, posicion(x,y) varían
     unsigned long long n=0;
 };
 

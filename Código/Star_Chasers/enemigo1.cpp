@@ -23,3 +23,4 @@ void enemigo1::set_scale(int a, int b)
 }
 
 #include "enemigo1.h"
+

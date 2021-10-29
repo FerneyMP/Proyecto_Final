@@ -15,7 +15,7 @@ class jugador1 : public QObject, public QGraphicsPixmapItem //Herencia
 {
     Q_OBJECT
 public:
-    jugador1(bool modo);
+    jugador1(bool modo, int a, int b);
     ~jugador1();
 
     void set_imagen();
@@ -23,13 +23,15 @@ public:
     void movimientoJugador(bool band);
     void movimientoJugador_AD(bool band);
     bool activar_enemigos(QList<enemigo1 *> *lista_enemigos, QGraphicsScene *escena);
+    int inferior;
+    int derecho;
 
 public slots:
     void tiempo_mov();
-    void tiempo_mov2();
+
 private:
     QPixmap img;
-    QTimer *time, *time2;
+    QTimer *time;
 
     int scalex = 1, scaley=1;
     bool bandera = false;
@@ -40,3 +42,4 @@ private:
 };
 
 #endif // JUGADOR1_H
+

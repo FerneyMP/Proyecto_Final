@@ -16,6 +16,7 @@
 #include "proyectil.h"
 
 #include "inicio.h"
+#include "dialog.h"
 
 #define DataBase "DataBase.txt" //Macro string para la definición del nombre del archivo
 using namespace std;
@@ -35,9 +36,12 @@ public:
     void setup_scene2();
     void setup_window2();
     void crear_txt(string name);
-    void escribir_txt(string nombre, string user, string pass, int vidas, int score);
+    void escribir_txt(string nombre, string user, string pass);
     void validar_usuario_contrasena();
+    void reescribir_txt(string nombre, string user, string pass, int life, int puntaje);
+
     string leer_usuario(string name);
+    QDialog *fin;
 
 private slots:
     void on_AgregarDatos_clicked();
@@ -54,7 +58,7 @@ private:
     QGraphicsView *View2, *View1;
     inicio *datos_vida_score;
 
-    int W1, H1, h;
+    int W1, H1, h;    
 
 };
 #endif // MAINWINDOW_H

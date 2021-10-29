@@ -10,17 +10,20 @@
 
 class asteroide : public QObject, public QGraphicsPixmapItem
 {
-    Q_OBJECT
+    Q_OBJECT   
 public:
     asteroide();
-    ~asteroide();
+    ~asteroide();   
     void set_imagen();
     void set_scale(int a, int b);
+    void movimientos_asteroides();
+    void setCenter(int a, int b);
     int size;
 
 private:
     QPixmap asteroide_;
     int scalex =1, scaley= 1;
+    int aleatX, aleatY, N;
 
 };
 
